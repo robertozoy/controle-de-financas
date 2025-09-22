@@ -1,0 +1,39 @@
+Erros comuns com validações de entrada de dados e para orientar o usuário, evitando que o programa encerre inesperadamente. 
+
+
+1. Formato de Número Decimal (Ponto vs. Vírgula)
+   - O que pode acontecer: O usuário digita um número decimal com ponto (`.`) em vez da vírgula (`,`) que é o padrão  (ex: `50.25` em vez de `50,25`).
+   - Como o sistema trata: O programa identificará a entrada como inválida (pois não é um número no formato esperado), exibirá a mensagem "Entrada inválida. 
+
+
+2. Entrada de Texto em Campos Numéricos
+   - O que pode acontecer: O usuário digita um texto (ex: "cem") em um campo que espera um número (como valor, saldo, ou opção de menu).
+   - Como o sistema trata: Semelhante ao erro anterior, o sistema detectará que a entrada não é um número válido, exibirá uma mensagem de erro e solicitará a entrada novamente.
+
+
+3. Valores Inválidos
+   - O que pode acontecer: O usuário digita um número que não faz sentido para a regra do sistema. Por exemplo:
+     - Valor de transação negativo ou zero.
+     - Limite de cheque especial negativo.
+     - Taxa de rendimento negativa.
+   - Como o sistema trata: As classes do modelo (`Transacao`, `ContaCorrente`, etc.) ou os métodos auxiliares no `Organizador` irão validar o valor. Se for inválido, uma mensagem específica como "Valor deve ser maior que zero" será exibida, e o usuário terá que corrigir a entrada.
+
+
+4. Nomes ou Descrições Vazias
+   - O que pode acontecer: O usuário tenta criar uma conta, categoria ou transação e apenas pressiona "Enter", sem digitar um nome ou descrição.
+   - Como o sistema trata: O programa entrará em um loop, exibindo a mensagem "Nome não pode ser vazio" e continuará pedindo a informação até que um texto válido seja inserido.
+
+
+5. Nomes Duplicados
+   - O que pode acontecer: O usuário tenta criar uma nova conta ou categoria com um nome que já existe.
+   - Como o sistema trata: A classe `Usuario` verifica a duplicidade. Se encontrar um nome igual, o sistema informará "Já existe uma conta com este nome" e pedirá para o usuário tentar um nome diferente, garantindo a unicidade dos nomes.
+
+
+6. Seleção de Opção Inválida no Menu
+   - O que pode acontecer: Em um menu com opções de 1 a 4, o usuário digita 5, 0 ou qualquer outro número fora do intervalo permitido.
+   - Como o sistema trata: O método auxiliar `lerInteiroEntre` detecta que o número está fora dos limites esperados, exibe uma mensagem como "Opção inválida. Por favor, insira um número entre X e Y" e pede a entrada novamente.
+
+
+7. Formato de Data Incorreto
+   - O que pode acontecer: O usuário digita uma data em um formato diferente do padrão "dd/MM/yyyy" (ex: "06-22-2025" ou "22 de Junho").
+   - Como o sistema trata: O programa tentará converter o texto para uma data. Como não conseguirá, ele capturará o erro (`DateTimeParseException`), informará ao usuário "Formato de data inválido. Use dd/MM/yyyy" e pedirá a data novamente.

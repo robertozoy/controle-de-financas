@@ -1,0 +1,24 @@
+As seguintes classes não foram testadas diretamente pelos motivos abaixo:
+
+1. Classe Abstrata: Conta.java
+   - Razão: Não é possível criar uma instância (um objeto) de uma classe abstrata diretamente.
+   - Como foi testada: A sua lógica comum, como o método `adicionarTransacao()`, é testada de forma indireta através dos testes de suas classes filhas: ContaCorrenteTest.java e ContaPoupancaTest.java.
+
+2. Enum: TipoTransacao.java
+   - Razão: Enums simples, que apenas definem um conjunto de constantes como RECEITA e DESPESA, não possuem lógica complexa que necessite de um teste próprio.
+   - Como foi testada: Seu uso correto é verificado nos testes da classe Transacao, que depende deste enum para funcionar.
+
+3. Classe Principal: Organizador.java
+   - Razão: Esta classe lida diretamente com a interface do usuário no terminal (lendo entradas e exibindo textos).
+   - Explicação: Testar este tipo de interação é complexo para testes de unidade.A classe Organizador é o mais "simples" possível, apenas chamando as classes do modelo, que foram testadas.
+
+OBS:
+	Quando o projeto é enviado via arquivo zip, o Junit não é criado de forma imediata no projeto, então é preciso adicionar o Junit de forma manual para o testes funcionarem corretamente, segue um tutorial simples:
+	
+	1. Clique com o botão direito no seu projeto no "Package Explorer".
+	2. Vá em Build Path > Configure Build Path....
+	3. Na janela que se abre, vá para a aba Libraries.
+	4. Clique em Add Library....
+	5.Selecione JUnit na lista, clique em Next >.
+	6. Escolha a versão mais recente do JUnit (ex: JUnit 5) no menu suspenso.
+	7. Clique em Finish e depois em Apply and Close.

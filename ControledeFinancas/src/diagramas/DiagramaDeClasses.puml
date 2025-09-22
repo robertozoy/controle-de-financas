@@ -1,0 +1,83 @@
+@startuml OrganizadorFinanceiro
+
+!theme materia
+
+' Estilo para as classes e relacionamentos
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam Linetype ortho
+
+' Enumerações
+enum TipoTransacao {
+  RECEITA
+  DESPESA
+}
+
+' Classes do Modelo
+class Categoria {
+  - nome: String
+  - descricao: String
+  + Categoria(nome: String)
+  + getnome(): String
+}
+
+class Transacao {
+  - descricao: String
+  - valor: double
+  - data: LocalDate
+  - tipo: TipoTransacao
+  - metodoPagamento: String
+  + Transacao(desc: String, valor: double, data: LocalDate, cat: Categoria, tipo: TipoTransacao, metodoPg: String)
+}
+
+abstract class Conta {
+  # nome: String
+  # saldo: double
+  # transacoes: List<Transacao>
+  + Conta(nome: String, saldoInicial: double)
+  + adicionarTransacao(transacao: Transacao): void
+  + {abstract} getTipoContaDescricao(): String
+}
+
+class ContaCorrente {
+  - limiteChequeEspecial: double
+  + getSaldoDisponivel(): double
+  + getTipoContaDescricao(): String
+}
+
+class ContaPoupanca {
+  - taxaRendimentoAnual: double
+  + aplicarRendimentoMensal(): void
+  + getTipoContaDescricao(): String
+}
+
+class Usuario {
+  - nome: String
+  ' Atributos de lista (contas, categorias)
+  ' são representados pelas linhas de relacionamento.
+  + Usuario(nome: String)
+  + adicionarConta(conta: Conta): void
+  + adicionarCategoriaPersonalizada(cat: Categoria): void
+}
+
+' --- Relacionamentos ---
+
+' Herança
+Conta <|-- ContaCorrente
+Conta <|-- ContaPoupanca
+
+' Composição (o todo possui a parte)
+Usuario "1" *-- "0..*" Conta : possui >
+Usuario "1" *-- "0..*" Categoria : personaliza >
+
+Conta "1" *-- "0..*" Transacao : registra >
+
+' Associação (objetos se conectam)
+Transacao "*" -- "1" Categoria : categorizada em >
+Transacao "*" -- "1" TipoTransacao : é do tipo >
+
+
+' Nota
+note top of Conta : Classe Abstrata
+
+@enduml
